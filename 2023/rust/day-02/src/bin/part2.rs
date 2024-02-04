@@ -11,8 +11,12 @@ fn part2(input: &str) -> u32 {
 
     games
         .filter_map(|game| {
-            let mut split = game.splitn(2, ':').skip(1);
-            let sets = split.next()?.split(';');
+            let sets = game
+                .splitn(2, ':')
+                .skip(1)
+                .next()
+                .expect("invalid input")
+                .split(';');
 
             let mut maximums: HashMap<&str, u32> =
                 HashMap::from_iter([("red", 0), ("green", 0), ("blue", 0)]);
