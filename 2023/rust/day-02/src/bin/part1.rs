@@ -1,10 +1,16 @@
+fn main() {
+    let input = include_str!("../../input1.txt");
+
+    let result = part1(input);
+    println!("{}", result);
+}
 use std::collections::HashMap;
 
-pub fn colored_cubes(input: &str) -> usize {
+pub fn part1(input: &str) -> usize {
     let max_colors: HashMap<&str, usize> =
         HashMap::from([("red", 12), ("green", 13), ("blue", 14)]);
 
-    let games = input.split('\n');
+    let games = input.lines();
 
     games
         .filter_map(|game| {
@@ -47,7 +53,7 @@ mod tests {
     #[test]
     fn test_colored_cubes() {
         assert_eq!(
-            colored_cubes(
+            part1(
                 "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
 Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
