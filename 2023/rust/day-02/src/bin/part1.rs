@@ -15,34 +15,31 @@ fn part1(input: &str) -> usize {
     games
         .filter_map(|game| {
             let mut split = game.splitn(2, ':');
-            let game_name = split.next()?;
-            let sets = split.next()?.split(';');
+            let game_name = split.next().expect("a valid game");
+            let mut sets = split.next().expect("valid sets").split(';');
 
-            for set in sets {
-                let mut cubes_info = set.split(',').map(|cube_info| {
-                    let mut split = cube_info.trim().split(' ');
+            sets.all(|set| {
+                let mut cubes = set.split(',').map(|cube| {
+                    let mut split = cube.trim().split(' ');
                     let num = split.next().unwrap().parse::<usize>().unwrap();
                     let color = split.next().unwrap();
 
                     (num, color)
                 });
 
-                if cubes_info.any(|(num, color)| num > *max_colors.get(color).unwrap()) {
-                    return None;
-                }
-            }
-
-            let game_id = game_name
-                .trim()
-                .split(' ')
-                .last()
-                .unwrap()
-                .parse::<usize>()
-                .unwrap();
-
-            Some(game_id)
+                cubes.all(|(num, color)| num <= *max_colors.get(color).unwrap())
+            })
+            .then(|| {
+                // get game id
+                game_name
+                    .trim()
+                    .split(' ')
+                    .last()
+                    .unwrap()
+                    .parse::<usize>()
+                    .unwrap()
+            })
         })
-        .into_iter()
         .sum()
 }
 

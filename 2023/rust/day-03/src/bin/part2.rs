@@ -6,15 +6,13 @@ fn main() {
 }
 
 fn part2(input: &str) -> usize {
-    // let lines = input.lines();
-
     let possible_gear_positions: Vec<Point> = input
         .lines()
         .enumerate()
         .flat_map(|(y, line)| {
             line.chars()
                 .enumerate()
-                .filter_map(move |(x, c)| is_asterysk(c).then(|| Point { x, y }))
+                .filter_map(move |(x, c)| (c == '*').then(|| Point { x, y }))
         })
         .collect();
 
@@ -66,23 +64,8 @@ fn part2(input: &str) -> usize {
         .sum()
 }
 
-fn is_asterysk(char: char) -> bool {
-    char == '*'
-}
-
 fn is_number_near_symbol(point1: &Point, number_pos: &NumberPosition) -> bool {
-    let difs: [(isize, isize); 8] = [
-        (-1, -1),
-        (-1, 0),
-        (-1, 1),
-        (0, -1),
-        (0, 1),
-        (1, -1),
-        (1, 0),
-        (1, 1),
-    ];
-
-    difs.iter().any(|dif| {
+    DIFS.iter().any(|dif| {
         let point_near = Point {
             x: point1.x.saturating_add_signed(dif.0),
             y: point1.y.saturating_add_signed(dif.1),
@@ -92,6 +75,17 @@ fn is_number_near_symbol(point1: &Point, number_pos: &NumberPosition) -> bool {
             && (number_pos.start.x..=number_pos.end.x).contains(&point_near.x)
     })
 }
+
+const DIFS: [(isize, isize); 8] = [
+    (-1, -1),
+    (-1, 0),
+    (-1, 1),
+    (0, -1),
+    (0, 1),
+    (1, -1),
+    (1, 0),
+    (1, 1),
+];
 
 #[derive(Debug)]
 struct NumberPosition {

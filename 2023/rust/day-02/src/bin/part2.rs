@@ -10,34 +10,34 @@ fn part2(input: &str) -> u32 {
     let games = input.lines();
 
     games
-        .filter_map(|game| {
+        .map(|game| -> u32 {
             let sets = game
                 .splitn(2, ':')
                 .skip(1)
                 .next()
-                .expect("invalid input")
+                .expect("a valid game")
                 .split(';');
 
-            let mut maximums: HashMap<&str, u32> =
-                HashMap::from_iter([("red", 0), ("green", 0), ("blue", 0)]);
-
-            for set in sets {
+            sets.fold(HashMap::new(), |mut map, set| {
                 set.split(',').for_each(|cube_info| {
                     let mut split = cube_info.trim().split(' ');
-                    let num = split.next().unwrap().parse::<u32>().unwrap();
-                    let color = split.next().unwrap();
+                    let num = split
+                        .next()
+                        .unwrap()
+                        .parse::<u32>()
+                        .expect("a valid number");
+                    let color = split.next().expect("a valid color");
 
-                    maximums.insert(color, *maximums.get(color).unwrap().max(&num));
+                    map.entry(color)
+                        .and_modify(|v| *v = num.max(*v))
+                        .or_insert(num);
                 });
-            }
 
-            Some(
-                maximums.get("red").unwrap()
-                    * maximums.get("green").unwrap()
-                    * maximums.get("blue").unwrap(),
-            )
+                map
+            })
+            .values()
+            .product()
         })
-        .into_iter()
         .sum()
 }
 

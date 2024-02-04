@@ -6,8 +6,6 @@ fn main() {
 }
 
 fn part1(input: &str) -> usize {
-    // let lines = input.lines();
-
     let symbol_positions: Vec<Point> = input
         .lines()
         .enumerate()
@@ -35,11 +33,9 @@ fn part1(input: &str) -> usize {
                     let num = str.parse::<usize>().unwrap();
 
                     nums.push(NumberPosition {
-                        start: Point { x: n, y },
-                        end: Point {
-                            x: n + str.len() - 1,
-                            y,
-                        },
+                        y,
+                        start_x: n,
+                        end_x: n + str.len() - 1,
                         value: num,
                     });
 
@@ -68,36 +64,35 @@ fn is_symbol(char: char) -> bool {
 }
 
 fn is_number_near_symbol(point1: &Point, number_pos: &NumberPosition) -> bool {
-    let difs: [(isize, isize); 8] = [
-        (-1, -1),
-        (-1, 0),
-        (-1, 1),
-        (0, -1),
-        (0, 1),
-        (1, -1),
-        (1, 0),
-        (1, 1),
-    ];
-
-    difs.iter().any(|dif| {
+    DIFS.iter().any(|dif| {
         let point_near = Point {
             x: point1.x.saturating_add_signed(dif.0),
             y: point1.y.saturating_add_signed(dif.1),
         };
 
-        point_near.y == number_pos.start.y
-            && (number_pos.start.x..=number_pos.end.x).contains(&point_near.x)
+        point_near.y == number_pos.y
+            && (number_pos.start_x..=number_pos.end_x).contains(&point_near.x)
     })
 }
 
-#[derive(Debug)]
+const DIFS: [(isize, isize); 8] = [
+    (-1, -1),
+    (-1, 0),
+    (-1, 1),
+    (0, -1),
+    (0, 1),
+    (1, -1),
+    (1, 0),
+    (1, 1),
+];
+
 struct NumberPosition {
-    start: Point,
-    end: Point,
+    y: usize,
+    start_x: usize,
+    end_x: usize,
     value: usize,
 }
 
-#[derive(Debug)]
 struct Point {
     x: usize,
     y: usize,
