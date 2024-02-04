@@ -1,11 +1,11 @@
 fn main() {
     let input = include_str!("../../input1.txt");
 
-    let result = part1(input);
+    let result = part2(input);
     println!("{}", result);
 }
 
-pub fn part1(input: &str) -> usize {
+fn part2(input: &str) -> usize {
     input
         .lines()
         .map(|line| {
@@ -44,3 +44,24 @@ pub fn part1(input: &str) -> usize {
 const NUM_STRS: [&str; 9] = [
     "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
 ];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn should_work() {
+        assert_eq!(
+            part2(
+                "two1nine
+eightwothree
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen"
+            ),
+            281
+        );
+    }
+}
