@@ -27,16 +27,16 @@ pub mod day_4 {
                 let card_entry = card_counts.entry(game_num);
                 let count = *card_entry.and_modify(|x| *x += 1).or_insert(1);
 
-                (1..=wins).for_each(|win_num| {
+                (1..=wins).fold(card_counts, |mut card_counts, win_num| {
                     card_counts
                         .entry(game_num + win_num)
                         .and_modify(|x| {
                             *x += count;
                         })
                         .or_insert(count);
-                });
 
-                card_counts
+                    card_counts
+                })
             })
             .values()
             .sum()
