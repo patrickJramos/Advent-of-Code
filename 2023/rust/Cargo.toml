@@ -1,5 +1,5 @@
 [workspace]
 resolver = "2"
 
-members = ["day-*", "t-*"]
-default-members = ["day-*", "t-*"]
+members = ["day-*", "leetcode/t-*"]
+default-members = ["day-*", "leetcode/t-*"]
