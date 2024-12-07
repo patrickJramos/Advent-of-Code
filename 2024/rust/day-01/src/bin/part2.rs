@@ -22,19 +22,18 @@ fn part2(input: &str) -> usize {
         })
         .collect();
 
-    let left: Vec<usize> = arr.iter().map(|x| x.0).collect();
-
-    let right: Vec<usize> = arr.iter().map(|x| x.1).collect();
-
     let mut score_map = HashMap::<usize, usize>::new();
 
-    right.iter().for_each(|n| {
+    arr.iter().for_each(|(_, n)| {
         let score_ref = score_map.entry(*n).or_insert(0);
 
         *score_ref += n;
     });
 
-    let result = left.iter().map(|n| score_map.get(n).unwrap_or(&0)).sum();
+    let result = arr
+        .iter()
+        .map(|(n, _)| score_map.get(n).unwrap_or(&0))
+        .sum();
 
     result
 }
