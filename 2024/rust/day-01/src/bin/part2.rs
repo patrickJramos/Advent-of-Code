@@ -30,10 +30,7 @@ fn part2(input: &str) -> usize {
         *score_ref += n;
     });
 
-    let result = arr
-        .iter()
-        .map(|(n, _)| score_map.get(n).unwrap_or(&0))
-        .sum();
+    let result = arr.iter().filter_map(|(n, _)| score_map.get(n)).sum();
 
     result
 }
