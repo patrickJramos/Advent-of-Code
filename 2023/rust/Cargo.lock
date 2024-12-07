@@ -484,6 +484,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "t-0003-longest-non-repeating-substring"
+version = "0.1.0"
+
+[[package]]
 name = "t-002-add-2-numbers"
 version = "0.1.0"
 
